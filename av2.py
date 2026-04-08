@@ -3,12 +3,11 @@ import random
 def jogar():
     palavras = []
 
-    
-    print("1 - facil")
-    print("2 - medio 2")
-    print("3 - dificil 3")
+    print("1 - jogos ")
+    print("2 - carros ")
+    print("3 - animais 3")
     print("4 - Sair")
-    opcao = int(input("Digite a opção desejada (1 a 4)"))
+    opcao = int(input("Digite a opção desejada (1 a 4): "))
 
     if opcao == 1:
         print("Selecionado opção 1")
@@ -25,6 +24,7 @@ def jogar():
     
     for linha in arquivo:
         palavras.append(linha.strip())
+    arquivo.close()
     palavra = random.choice(palavras)
 
     letras_acertadas = []
@@ -33,47 +33,132 @@ def jogar():
 
     acertou = False
     enforcou = False
-    limite_tentativas = len(palavra) + 6
+    erros = 0 
+    MAX_ERROS = 6  
     tentativa = 1
 
     def mostrar_letras_acertadas():
         for letra in letras_acertadas:
             print(letra, end=" ")
+        print(f"\nErros: {erros}/{MAX_ERROS}")
 
-    print("Tente adivinhar a palavra secreta: ")
+    def desenhar_enforcado():
+        """Desenha o enforcado baseado no número de erros"""
+        boneco = [
+            """
+              -----
+              |   |
+                  |
+                  |
+                  |
+                  |
+            =========
+            """,
+            """
+              -----
+              |   |
+              O   |
+                  |
+                  |
+                  |
+            =========
+            """,
+            """
+              -----
+              |   |
+              O   |
+              |   |
+                  |
+                  |
+            =========
+            """,
+            """
+              -----
+              |   |
+              O   |
+             /|   |
+                  |
+                  |
+            =========
+            """,
+            """
+              -----
+              |   |
+              O   |
+             /|\\  |
+                  |
+                  |
+            =========
+            """,
+            """
+              -----
+              |   |
+              O   |
+             /|\\  |
+             /    |
+                  |
+            =========
+            """,
+            """
+              -----
+              |   |
+              O   |
+             /|\\  |
+             / \\  |
+                  |
+            =========
+            ENFORCADO!
+            """
+        ]
+        print(boneco[erros])
+
+    print("Tente adivinhar a palavra secreta!")
+    print(f"A palavra tem {len(palavra)} letras")
+    
     while(not acertou and not enforcou):
-        # mostrar as letras acertadas
+        desenhar_enforcado()
         mostrar_letras_acertadas()
-        print("")
-        chute = input("Digite uma letra: ")
+        
+        chute = input("\nDigite uma letra: ").lower()
+        
+        if len(chute) != 1 or not chute.isalpha():
+            print("Digite apenas uma letra válida!")
+            print("-" * 30)
+            continue
+            
+        acertou_nessa_rodada = False
         indice = 0
 
-        #verificar se a letra existe ma palavra, se nao existir, erro + 1
+      
         for letra in palavra:
-            if chute.upper() == letra:
+            if chute == letra:
                 letras_acertadas[indice] = letra
-            indice = indice + 1
+                acertou_nessa_rodada = True
+            indice += 1
         
-        if tentativa == limite_tentativas:
-            print("Você perdeu :(\nA palavra era: ", palavra)
+       
+        if acertou_nessa_rodada:
+            print(f" ÓTIMO! A letra '{chute}' está na palavra!")
+        else:
+            erros += 1
+            print(f" ERRO! A letra '{chute}' NÃO está na palavra!")
+        
+        
+        if erros >= MAX_ERROS:
+            desenhar_enforcado()
+            print(f"\n VOCÊ FOI ENFORCADO! A palavra era: {palavra}")
+            print(f"Você fez {erros} erros!")
             enforcou = True
 
+        
         if letras_acertadas.count("_") == 0:
-            print("Parabéns, você acertou a palavra secreta!")
+            print("\n PARABÉNS! Você acertou a palavra secreta!")
             mostrar_letras_acertadas()
+            print(f" Você venceu em {tentativa} tentativas com apenas {erros} erros!")
             acertou = True
 
-        tentativa = tentativa + 1
+        tentativa += 1
+        print("-" * 40)  
 
 
-    # TABELA VERDADE
-    # Quero fazer um suco de banana OU maça
-    # banana = true
-    # maçã = true
-    #   E       |       OU
-    # v v = v   |     v v = v
-    # V F = F   |     V F = V
-    # F V = F   |     F V = V
-    # F F = F   |     F F = F
-if(__name__ == "__main__"):
-    jogar()
+jogar()
