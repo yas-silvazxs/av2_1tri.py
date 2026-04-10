@@ -159,6 +159,6 @@ def jogar():
 
         tentativa += 1
         print("-" * 40)  
+if(__name__ == "__main__"):
+    jogar()
 
-
-jogar()
