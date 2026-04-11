@@ -16,7 +16,7 @@ def jogar():
             sorteio_max = 10
             tentativas_max = 5
         elif opcao == 2:
-            print( " voce selecionado o Médio",  )
+            print( " voce selecionado o Médio"  )
             sorteio_max = 50
             tentativas_max = 10
         elif opcao == 3:
