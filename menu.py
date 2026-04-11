@@ -2,7 +2,7 @@ import advinhacao
 import forca
 
 while True:
-    print("=== MENU PRINCIPAL ===")
+    print("= MENU PRINCIPAL =")
     print("1 - Adivinhação")
     print("2 - Força")
     print("3 - Sair")
@@ -14,9 +14,11 @@ while True:
     elif opcao == 2:
         forca.jogar()
     elif opcao == 3:
-        print(" Até logo!")
+        print(" ate logo !")
         break
     else:
         print(" Opção inválida!")
     
-    input("\nPressione Enter para continuar...")
+    input("\nPressione Enter para continuar.")
+
+
